@@ -5,8 +5,8 @@
 }
 
 body {
-  background: #000;
-  color: #fff;
+  background: #050505;
+  color: white;
   font-family: Inter, sans-serif;
 }
 
@@ -14,159 +14,139 @@ body {
   min-height: 100vh;
 }
 
-/* NAVBAR */
-
-.navbar {
-  display: flex;
-  justify-content: center;
-  padding-top: 3rem;
-}
-
-.navbar-title {
-  font-size: 4rem;
-  font-weight: 800;
-  color: #ffffff !important;
-}
-
 /* HERO */
 
 .hero {
   text-align: center;
-  padding: 2rem 1rem 4rem;
+  padding: 4rem 1rem;
+}
+
+.hero-company-name {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  letter-spacing: -1px;
 }
 
 .hero-logo {
-  width: 140px;
-  height: auto;
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
   display: block;
-  margin: 2rem auto;
+  margin: 0 auto 2rem auto;
 }
 
-.hero h1 {
-  font-size: 5rem;
+.hero h1:not(.hero-company-name) {
+  font-size: 4rem;
   font-weight: 800;
-  color: #ffffff !important;
+  margin-bottom: 1rem;
+  letter-spacing: -2px;
 }
 
 .hero p {
-  font-size: 1.8rem;
-  color: rgba(255, 255, 255, 0.55);
-  margin-top: 1rem;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
+  color: #888;
+  font-size: 1.2rem;
 }
 
-/* GRID */
+/* COMPANY GRID */
 
 .company-grid {
-  max-width: 1200px;
+  width: min(1200px, 90%);
   margin: 0 auto;
-  padding: 0 2rem 5rem;
+  padding-bottom: 5rem;
+
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
   gap: 2rem;
 }
 
 /* CARDS */
 
 .company-card {
-  background: #080808;
-  border: 1px solid #1a1a1a;
-  border-radius: 28px;
+  background: #0d0d0d;
+  border: 1px solid #1f1f1f;
+  border-radius: 24px;
   padding: 2rem;
-  min-height: 180px;
+
   cursor: pointer;
-  transition: all 0.2s ease;
-  color: #ffffff !important;
+  transition: all 0.25s ease;
 }
 
 .company-card:hover {
   transform: translateY(-4px);
-  border-color: #2a2a2a;
-}
-
-.company-card *,
-.company-card a,
-.company-card a:visited,
-.company-card a:hover,
-.company-card a:active {
-  color: #ffffff !important;
-  text-decoration: none;
+  border-color: #2f2f2f;
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 3rem;
 }
 
-.card-header h2 {
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: #ffffff !important;
+.company-card h2 {
+  font-size: 2rem;
+  font-weight: 600;
 }
 
 .company-card p {
-  margin-top: 3rem;
   text-align: center;
-  font-size: 1.3rem;
-  color: rgba(255, 255, 255, 0.6) !important;
+  color: #8a8a8a;
+  font-size: 1.4rem;
 }
 
 /* STATUS LIGHTS */
 
 .status-light {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
 }
 
 .status-light.green {
-  background: #00ff66;
-  box-shadow: 0 0 15px #00ff66;
+  background: #00ff73;
+  box-shadow: 0 0 14px #00ff73;
 }
 
 .status-light.yellow {
   background: #ffcc00;
-  box-shadow: 0 0 15px #ffcc00;
+  box-shadow: 0 0 14px #ffcc00;
 }
 
 .status-light.red {
-  background: #ff4d4d;
-  box-shadow: 0 0 15px #ff4d4d;
+  background: #ff453a;
+  box-shadow: 0 0 14px #ff453a;
 }
 
 /* FOOTER */
 
-footer {
+.footer {
   text-align: center;
-  padding: 3rem 1rem;
-  color: rgba(255, 255, 255, 0.35);
-  font-size: 1rem;
+  color: #666;
+  padding: 4rem 1rem;
+  font-size: 1.1rem;
 }
 
 /* MOBILE */
 
 @media (max-width: 768px) {
-  .navbar-title {
+  .hero-company-name {
+    font-size: 2.25rem;
+  }
+
+  .hero h1:not(.hero-company-name) {
     font-size: 3rem;
-  }
-
-  .hero h1 {
-    font-size: 4rem;
-  }
-
-  .hero-logo {
-    width: 110px;
   }
 
   .company-grid {
     grid-template-columns: 1fr;
-    padding: 0 1rem 4rem;
   }
 
-  .card-header h2 {
-    font-size: 1.8rem;
+  .company-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .company-card p {
+    font-size: 1.1rem;
   }
 }
