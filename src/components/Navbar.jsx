@@ -1,9 +1,13 @@
+import logo from "../assets/mngm-logo.png";
+
 function Navbar() {
   return (
     <nav className="navbar">
-      <div className="navbar-logo">
-        MNGM
-      </div>
+      <img
+        src={logo}
+        alt="MNGM Group"
+        className="navbar-logo"
+      />
     </nav>
   );
 }

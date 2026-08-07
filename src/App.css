@@ -226,4 +226,10 @@ body {
     padding: 24px;
   }
 
+  .navbar-logo {
+  height: 42px;
+  width: auto;
+  user-select: none;
+}
+
 }
