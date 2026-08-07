@@ -5,8 +5,8 @@
 }
 
 body {
-  background: #050505;
-  color: white;
+  background: #000;
+  color: #fff;
   font-family: Inter, sans-serif;
 }
 
@@ -14,139 +14,159 @@ body {
   min-height: 100vh;
 }
 
+/* NAVBAR */
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  padding-top: 3rem;
+}
+
+.navbar-title {
+  font-size: 4rem;
+  font-weight: 800;
+  color: #ffffff !important;
+}
+
 /* HERO */
 
 .hero {
   text-align: center;
-  padding: 4rem 1rem;
-}
-
-.hero-company-name {
-  font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 1.5rem;
-  letter-spacing: -1px;
+  padding: 2rem 1rem 4rem;
 }
 
 .hero-logo {
-  width: 90px;
-  height: 90px;
-  object-fit: contain;
+  width: 140px;
+  height: auto;
   display: block;
-  margin: 0 auto 2rem auto;
+  margin: 2rem auto;
 }
 
-.hero h1:not(.hero-company-name) {
-  font-size: 4rem;
+.hero h1 {
+  font-size: 5rem;
   font-weight: 800;
-  margin-bottom: 1rem;
-  letter-spacing: -2px;
+  color: #ffffff !important;
 }
 
 .hero p {
-  color: #888;
-  font-size: 1.2rem;
+  font-size: 1.8rem;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 1rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* COMPANY GRID */
+/* GRID */
 
 .company-grid {
-  width: min(1200px, 90%);
+  max-width: 1200px;
   margin: 0 auto;
-  padding-bottom: 5rem;
-
+  padding: 0 2rem 5rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
   gap: 2rem;
 }
 
 /* CARDS */
 
 .company-card {
-  background: #0d0d0d;
-  border: 1px solid #1f1f1f;
-  border-radius: 24px;
+  background: #080808;
+  border: 1px solid #1a1a1a;
+  border-radius: 28px;
   padding: 2rem;
-
+  min-height: 180px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
+  color: #ffffff !important;
 }
 
 .company-card:hover {
   transform: translateY(-4px);
-  border-color: #2f2f2f;
+  border-color: #2a2a2a;
+}
+
+.company-card *,
+.company-card a,
+.company-card a:visited,
+.company-card a:hover,
+.company-card a:active {
+  color: #ffffff !important;
+  text-decoration: none;
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 3rem;
 }
 
-.company-card h2 {
-  font-size: 2rem;
-  font-weight: 600;
+.card-header h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ffffff !important;
 }
 
 .company-card p {
+  margin-top: 3rem;
   text-align: center;
-  color: #8a8a8a;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.6) !important;
 }
 
 /* STATUS LIGHTS */
 
 .status-light {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
 }
 
 .status-light.green {
-  background: #00ff73;
-  box-shadow: 0 0 14px #00ff73;
+  background: #00ff66;
+  box-shadow: 0 0 15px #00ff66;
 }
 
 .status-light.yellow {
   background: #ffcc00;
-  box-shadow: 0 0 14px #ffcc00;
+  box-shadow: 0 0 15px #ffcc00;
 }
 
 .status-light.red {
-  background: #ff453a;
-  box-shadow: 0 0 14px #ff453a;
+  background: #ff4d4d;
+  box-shadow: 0 0 15px #ff4d4d;
 }
 
 /* FOOTER */
 
-.footer {
+footer {
   text-align: center;
-  color: #666;
-  padding: 4rem 1rem;
-  font-size: 1.1rem;
+  padding: 3rem 1rem;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 1rem;
 }
 
 /* MOBILE */
 
 @media (max-width: 768px) {
-  .hero-company-name {
-    font-size: 2.25rem;
+  .navbar-title {
+    font-size: 3rem;
   }
 
-  .hero h1:not(.hero-company-name) {
-    font-size: 3rem;
+  .hero h1 {
+    font-size: 4rem;
+  }
+
+  .hero-logo {
+    width: 110px;
   }
 
   .company-grid {
     grid-template-columns: 1fr;
+    padding: 0 1rem 4rem;
   }
 
-  .company-card h2 {
-    font-size: 1.5rem;
-  }
-
-  .company-card p {
-    font-size: 1.1rem;
+  .card-header h2 {
+    font-size: 1.8rem;
   }
 }
