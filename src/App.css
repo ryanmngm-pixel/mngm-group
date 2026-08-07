@@ -26,6 +26,7 @@ body {
   font-weight: 800;
   margin-bottom: 1.5rem;
   letter-spacing: -1px;
+  color: #ffffff !important;
 }
 
 .hero-logo {
@@ -41,10 +42,11 @@ body {
   font-weight: 800;
   margin-bottom: 1rem;
   letter-spacing: -2px;
+  color: #ffffff !important;
 }
 
 .hero p {
-  color: #888;
+  color: #888 !important;
   font-size: 1.2rem;
 }
 
@@ -70,6 +72,8 @@ body {
 
   cursor: pointer;
   transition: all 0.25s ease;
+
+  color: #ffffff !important;
 }
 
 .company-card:hover {
@@ -87,12 +91,31 @@ body {
 .company-card h2 {
   font-size: 2rem;
   font-weight: 600;
+  color: #ffffff !important;
 }
 
 .company-card p {
   text-align: center;
-  color: #8a8a8a;
+  color: #8a8a8a !important;
   font-size: 1.4rem;
+}
+
+/* FORCE CARD TEXT TO STAY WHITE IN LIGHT MODE */
+
+.company-card,
+.company-card h2,
+.company-card p,
+.company-card a,
+.company-card a:visited,
+.company-card a:hover,
+.company-card a:active {
+  color: #ffffff !important;
+}
+
+/* Keep descriptions gray */
+
+.company-card p {
+  color: #8a8a8a !important;
 }
 
 /* STATUS LIGHTS */
@@ -122,7 +145,7 @@ body {
 
 .footer {
   text-align: center;
-  color: #666;
+  color: #666 !important;
   padding: 4rem 1rem;
   font-size: 1.1rem;
 }
