@@ -1,7 +1,7 @@
 function Footer() {
   return (
     <footer className="footer">
-      © {new Date().getFullYear()} MNGM Group, LLC
+      © {new Date().getFullYear()} MNGM Group, LLC | Created by, MNGM Studios
     </footer>
   );
 }
