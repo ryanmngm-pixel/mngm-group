@@ -7,7 +7,13 @@ function Navbar() {
         src={logo}
         alt="MNGM Group"
         className="navbar-logo"
+        width="60"
+        height="60"
       />
+
+      <h1 className="navbar-title">
+        MNGM Group
+      </h1>
     </nav>
   );
 }
