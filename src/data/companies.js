@@ -24,7 +24,7 @@ const companies = [
     title: "MNGM Studios",
     description: "Creative & Software Studio",
     status: "green",
-    link: "mngmstudios.com",
+    link: "https://www.mngmstudios.com",
   },
 
   {
