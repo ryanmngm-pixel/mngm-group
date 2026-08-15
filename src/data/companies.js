@@ -33,6 +33,12 @@ const companies = [
     status: "green",
     link: "https://www.instagram.com/theprinceryan",
   },
+
+  {
+    title: "Stride Financial",
+    description: "Budgeting & Financial Management",
+    status: "yellow",
+    link: "",},
 ];
 
 export default companies;
