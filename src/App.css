@@ -638,3 +638,317 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* =========================================
+   MNGM GROUP — MOBILE LAYOUT REPAIR
+   ========================================= */
+
+@media (max-width: 700px) {
+  .site {
+    min-height: 100svh;
+    overflow: hidden;
+  }
+
+  /* Compact header */
+  .header {
+    min-height: 68px;
+    padding-inline: 6%;
+  }
+
+  .header-label {
+    font-size: 7px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Give the headline its own space */
+  .intro {
+    top: 16%;
+    width: 92%;
+  }
+
+  .eyebrow {
+    margin-bottom: 18px;
+    font-size: 9px;
+  }
+
+  .intro h1 {
+    font-size: clamp(62px, 14vw, 82px);
+    line-height: 0.88;
+  }
+
+  .intro-description {
+    margin-top: 20px;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  /* Keep the orbit decorative and behind everything */
+  .orbit {
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .orbit-outer {
+    top: 112%;
+    width: 140vw;
+  }
+
+  .orbit-inner {
+    top: 124%;
+    width: 108vw;
+  }
+
+  /* Put the business counter ABOVE the card */
+  .portfolio-meta {
+    position: absolute;
+    top: auto;
+    bottom: 318px;
+    left: 7%;
+    z-index: 10;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    pointer-events: none;
+  }
+
+  .portfolio-label {
+    font-size: 9px;
+    letter-spacing: 1.3px;
+  }
+
+  .portfolio-count {
+    font-size: 17px;
+  }
+
+  /* One centered business card */
+  .carousel {
+    z-index: 5;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .business-card {
+    position: absolute;
+    top: auto;
+    bottom: 122px;
+    left: 50%;
+
+    width: 86%;
+    max-width: 360px;
+    height: 175px;
+    padding: 18px;
+
+    transform: translateX(-50%);
+  }
+
+  .card-top,
+  .card-bottom {
+    gap: 8px;
+  }
+
+  .card-name {
+    font-size: clamp(23px, 6.5vw, 29px);
+    letter-spacing: -1.2px;
+  }
+
+  .card-category {
+    font-size: 8px;
+    letter-spacing: 1.2px;
+  }
+
+  .card-description {
+    max-width: 72%;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .card-arrow {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+
+  .card-arrow .arrow-icon {
+    width: 17px;
+    height: 17px;
+  }
+
+  .card-explore {
+    gap: 5px;
+    font-size: 8px;
+    letter-spacing: 0.6px;
+  }
+
+  /* Fix animation positions for the mobile card */
+  .business-card.enter-right {
+    animation-name: mobile-enter-right;
+  }
+
+  .business-card.enter-left {
+    animation-name: mobile-enter-left;
+  }
+
+  @keyframes mobile-enter-right {
+    from {
+      opacity: 0;
+      transform: translate(-35%, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+
+  @keyframes mobile-enter-left {
+    from {
+      opacity: 0;
+      transform: translate(-65%, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+
+  /* Dedicated, fully clickable navigation */
+  .carousel-controls {
+    position: absolute;
+    top: auto;
+    right: 0;
+    bottom: 62px;
+    left: 0;
+    z-index: 30;
+
+    width: 100%;
+    padding: 0 6%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .nav-button {
+    position: relative;
+    z-index: 31;
+
+    flex: 0 0 48px;
+    width: 48px;
+    min-width: 48px;
+    height: 48px;
+    min-height: 48px;
+
+    display: grid;
+    place-items: center;
+
+    padding: 0;
+    margin: 0;
+
+    pointer-events: auto;
+    touch-action: manipulation;
+  }
+
+  .nav-button .arrow-icon {
+    width: 19px;
+    height: 19px;
+  }
+
+  .controls-label {
+    font-size: 7px;
+    letter-spacing: 0.8px;
+    text-align: center;
+  }
+
+  /* Keep footer separate from navigation */
+  .footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 40;
+
+    min-height: 50px;
+    padding: 0 6%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+
+    font-size: 7px;
+    letter-spacing: 0.4px;
+    background: var(--bg);
+  }
+
+  .footer-copy {
+    white-space: nowrap;
+  }
+
+  .legal-links {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
+
+  .legal-links a {
+    padding: 12px 0;
+    font-size: 8px;
+  }
+}
+
+/* Extra-small phones */
+@media (max-width: 380px) {
+  .header-label {
+    font-size: 6px;
+  }
+
+  .wordmark-main {
+    font-size: 16px;
+  }
+
+  .wordmark-sub {
+    font-size: 7px;
+    letter-spacing: 1.5px;
+  }
+
+  .intro h1 {
+    font-size: 60px;
+  }
+
+  .business-card {
+    width: 88%;
+    height: 168px;
+    padding: 15px;
+  }
+
+  .card-name {
+    font-size: 22px;
+  }
+
+  .carousel-controls {
+    gap: 9px;
+  }
+
+  .controls-label {
+    font-size: 6px;
+  }
+
+  .nav-button {
+    flex-basis: 44px;
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+  }
+
+  .legal-links {
+    gap: 8px;
+  }
+}
