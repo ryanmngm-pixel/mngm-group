@@ -1,175 +1,612 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.site {
+  --background: #090909;
+  --foreground: #f2f0eb;
+  --muted: #777772;
+  --line: rgba(255, 255, 255, 0.13);
+
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--background);
+  color: var(--foreground);
 }
 
-body {
-  background: #050505;
-  color: white;
-  font-family: Inter, sans-serif;
+.header {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 10;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 34px 5vw;
+  border-bottom: 1px solid var(--line);
 }
 
-#root {
-  min-height: 100vh;
+.wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+
+  color: var(--foreground);
+  text-decoration: none;
+
+  font-size: 17px;
+  font-weight: 750;
+  letter-spacing: -0.9px;
 }
 
-/* HERO */
+.wordmark span {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 2px;
+}
 
-.hero {
+.header-label,
+.eyebrow,
+.card-category,
+.card-number,
+.portfolio-caption,
+.carousel-controls,
+.footer,
+.active-indicator {
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+}
+
+.header-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #aaa9a2;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #b8c9a9;
+  box-shadow: 0 0 12px rgba(184, 201, 169, 0.35);
+}
+
+.intro {
+  position: absolute;
+  top: 19%;
+  left: 50%;
+  z-index: 2;
+
+  width: min(500px, 90%);
   text-align: center;
-  padding: 4rem 1rem;
+
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
-.hero-company-name {
-  font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 1.5rem;
-  letter-spacing: -1px;
-  color: #ffffff !important;
+.eyebrow {
+  margin: 0 0 25px;
+  color: #aaa9a2;
 }
 
-.hero-logo {
-  width: 90px;
-  height: 90px;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto 2rem auto;
+.intro h1 {
+  margin: 0;
+
+  font-size: clamp(64px, 10vw, 124px);
+  font-weight: 500;
+  line-height: 0.83;
+  letter-spacing: -0.095em;
 }
 
-.hero h1:not(.hero-company-name) {
-  font-size: 4rem;
-  font-weight: 800;
-  margin-bottom: 1rem;
-  letter-spacing: -2px;
-  color: #ffffff !important;
+.intro h1 span {
+  color: #777772;
 }
 
-.hero p {
-  color: #888 !important;
-  font-size: 1.2rem;
+.intro-description {
+  margin-top: 30px;
+  color: #aaa9a2;
+  font-size: 13px;
+  line-height: 1.9;
 }
 
-/* COMPANY GRID */
-
-.company-grid {
-  width: min(1200px, 90%);
-  margin: 0 auto;
-  padding-bottom: 5rem;
-
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-  gap: 2rem;
+.portfolio {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
 }
 
-/* CARDS */
+.orbit {
+  position: absolute;
+  left: 50%;
+  top: 120%;
 
-.company-card {
-  background: #0d0d0d;
-  border: 1px solid #1f1f1f;
-  border-radius: 24px;
-  padding: 2rem;
+  width: 84vw;
+  height: 78vh;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.carousel {
+  position: absolute;
+  inset: 0;
+
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  outline: none;
+}
+
+.carousel.is-dragging {
+  cursor: grabbing;
+}
+
+.business-card {
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  width: clamp(170px, 20vw, 245px);
+  height: 148px;
+  padding: 20px;
+
+  color: var(--foreground);
+  text-align: left;
+
+  background: #111110;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 3px;
+
+  transform:
+    translate(-50%, -50%)
+    translate(var(--x), var(--y));
+
+  opacity: 0.45;
+  transition:
+    opacity 250ms ease,
+    background 250ms ease,
+    border-color 250ms ease,
+    box-shadow 250ms ease;
 
   cursor: pointer;
-  transition: all 0.25s ease;
-
-  color: #ffffff !important;
+  touch-action: pan-y;
 }
 
-.company-card:hover {
-  transform: translateY(-4px);
-  border-color: #2f2f2f;
+.business-card.is-active {
+  z-index: 5;
+  opacity: 1;
+  background: #191918;
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.25);
 }
 
-.card-header {
+.card-number {
+  color: #777772;
+}
+
+.card-name {
+  font-size: clamp(17px, 2vw, 23px);
+  font-weight: 500;
+  letter-spacing: -1px;
+}
+
+.card-category {
+  color: #999890;
+  font-size: 8px;
+  letter-spacing: 1px;
+}
+
+.card-arrow {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+
+  color: #999890;
+  font-size: 16px;
+}
+
+.portfolio-caption {
+  position: absolute;
+  bottom: 115px;
+  left: 5vw;
+  z-index: 6;
+
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 12px;
+
+  color: #aaa9a2;
+}
+
+.carousel-count {
+  color: var(--foreground);
+  font-size: 15px;
+}
+
+.count-divider {
+  padding: 0 8px;
+  color: #777772;
+}
+
+.carousel-controls {
+  position: absolute;
+  right: 50%;
+  bottom: 42px;
+  z-index: 7;
+
+  display: flex;
   align-items: center;
-  margin-bottom: 3rem;
+  gap: 24px;
+
+  color: #aaa9a2;
+  white-space: nowrap;
+
+  transform: translateX(50%);
 }
 
-.company-card h2 {
-  font-size: 2rem;
-  font-weight: 600;
-  color: #ffffff !important;
-}
+.carousel-controls button {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
 
-.company-card p {
-  text-align: center;
-  color: #8a8a8a !important;
-  font-size: 1.4rem;
-}
-
-/* FORCE CARD TEXT TO STAY WHITE IN LIGHT MODE */
-
-.company-card,
-.company-card h2,
-.company-card p,
-.company-card a,
-.company-card a:visited,
-.company-card a:hover,
-.company-card a:active {
-  color: #ffffff !important;
-}
-
-/* Keep descriptions gray */
-
-.company-card p {
-  color: #8a8a8a !important;
-}
-
-/* STATUS LIGHTS */
-
-.status-light {
-  width: 16px;
-  height: 16px;
+  color: var(--foreground);
+  background: transparent;
+  border: 1px solid var(--line);
   border-radius: 50%;
+
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    color 180ms ease;
 }
 
-.status-light.green {
-  background: #00ff73;
-  box-shadow: 0 0 14px #00ff73;
+.carousel-controls button:hover {
+  color: #090909;
+  background: #f2f0eb;
 }
-
-.status-light.yellow {
-  background: #ffcc00;
-  box-shadow: 0 0 14px #ffcc00;
-}
-
-.status-light.red {
-  background: #ff453a;
-  box-shadow: 0 0 14px #ff453a;
-}
-
-/* FOOTER */
 
 .footer {
-  text-align: center;
-  color: #666 !important;
-  padding: 4rem 1rem;
-  font-size: 1.1rem;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  min-height: 65px;
+  padding: 0 5vw;
+
+  color: #777772;
+  border-top: 1px solid var(--line);
 }
 
-/* MOBILE */
+.legal-links {
+  display: flex;
+  gap: 24px;
+}
 
-@media (max-width: 768px) {
-  .hero-company-name {
-    font-size: 2.25rem;
+.legal-links a {
+  color: #aaa9a2;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.legal-links a:hover {
+  color: var(--foreground);
+}
+
+.active-indicator {
+  position: absolute;
+  top: 50%;
+  right: 5vw;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  color: #777772;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.indicator-line {
+  width: 30px;
+  height: 1px;
+  background: #777772;
+}
+
+@media (min-width: 1200px) {
+  .business-card {
+    width: 235px;
+    height: 155px;
+  }
+}
+
+@media (max-width: 700px) {
+  .header {
+    padding: 25px 6vw;
   }
 
-  .hero h1:not(.hero-company-name) {
-    font-size: 3rem;
+  .header-label {
+    font-size: 8px;
+    letter-spacing: 0.8px;
   }
 
-  .company-grid {
-    grid-template-columns: 1fr;
+  .intro {
+    top: 23%;
   }
 
-  .company-card h2 {
-    font-size: 1.5rem;
+  .intro h1 {
+    font-size: clamp(68px, 17vw, 100px);
   }
 
-  .company-card p {
-    font-size: 1.1rem;
+  .intro-description {
+    font-size: 12px;
+  }
+
+  .orbit {
+    top: 119%;
+    width: 145vw;
+    height: 70vh;
+  }
+
+  .business-card {
+    top: 119%;
+    width: 178px;
+    height: 132px;
+    padding: 16px;
+  }
+
+  .portfolio-caption {
+    bottom: 105px;
+    left: 6vw;
+  }
+
+  .active-indicator {
+    display: none;
+  }
+
+  .carousel-controls {
+    bottom: 36px;
+    gap: 14px;
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  .carousel-controls button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .footer {
+    min-height: 58px;
+    padding: 0 6vw;
+    font-size: 8px;
+    letter-spacing: 0.7px;
+  }
+
+  .legal-links {
+    gap: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ========================================
+   MNGM GROUP — SINGLE CARD CAROUSEL
+   ======================================== */
+
+.portfolio {
+  isolation: isolate;
+}
+
+.orbit {
+  top: 125%;
+  width: 85vw;
+  height: 85vw;
+  max-width: 1100px;
+  max-height: 1100px;
+}
+
+/* The carousel is now a single-card viewport. */
+
+.carousel {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.business-card {
+  position: absolute;
+
+  top: auto;
+  bottom: 105px;
+  left: 50%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+
+  width: clamp(280px, 32vw, 390px);
+  height: 175px;
+
+  padding: 24px;
+
+  opacity: 1;
+
+  transform: translateX(-50%);
+
+  pointer-events: auto;
+  cursor: pointer;
+
+  background: #111110;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+
+  transition:
+    background 250ms ease,
+    border-color 250ms ease,
+    box-shadow 250ms ease;
+}
+
+.business-card:hover {
+  background: #191918;
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.3);
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card-name {
+  font-size: clamp(23px, 3vw, 32px);
+  font-weight: 500;
+  letter-spacing: -1.5px;
+}
+
+.card-description {
+  color: #999890;
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.card-category {
+  font-size: 9px;
+}
+
+.card-arrow {
+  transition: transform 200ms ease;
+}
+
+.business-card:hover .card-arrow {
+  transform: translate(3px, -3px);
+}
+
+/* Slide the outgoing card away and the next one into view. */
+
+.slide-in {
+  animation-duration: 420ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+.slide-from-right {
+  animation-name: enter-from-right;
+}
+
+.slide-from-left {
+  animation-name: enter-from-left;
+}
+
+@keyframes enter-from-right {
+  from {
+    opacity: 0;
+    transform: translate(-35%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes enter-from-left {
+  from {
+    opacity: 0;
+    transform: translate(-65%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Keep the navigation centered below the card. */
+
+.carousel-controls {
+  bottom: 35px;
+  gap: 22px;
+  z-index: 8;
+}
+
+.carousel-controls span {
+  white-space: nowrap;
+}
+
+/* Keep the counter in the lower-left corner. */
+
+.portfolio-caption {
+  bottom: 115px;
+  z-index: 8;
+}
+
+/* Mobile layout. */
+
+@media (max-width: 700px) {
+  .business-card {
+    bottom: 105px;
+    width: min(82vw, 340px);
+    height: 160px;
+    padding: 20px;
+  }
+
+  .card-name {
+    font-size: 25px;
+  }
+
+  .card-description {
+    font-size: 10px;
+  }
+
+  .portfolio-caption {
+    bottom: 290px;
+  }
+
+  .carousel-controls {
+    bottom: 35px;
+    gap: 12px;
+  }
+
+  .orbit {
+    top: 126%;
+    width: 150vw;
+    height: 150vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide-in {
+    animation-duration: 0.01ms;
   }
 }
