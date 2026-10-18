@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
 
 const businesses = [
@@ -14,47 +14,47 @@ const businesses = [
     category: "PROFESSIONAL SERVICES",
     description: "Services built around getting things done.",
     number: "02",
-    href: "/services",
+    href: null,
   },
   {
     name: "MNGM Auto",
     category: "AUTOMOTIVE",
     description: "Driven by a better way forward.",
     number: "03",
-    href: "/auto",
+    href: null,
   },
   {
     name: "Logic",
     category: "TECHNOLOGY",
     description: "A smarter way to stay accountable.",
     number: "04",
-    href: "/logic",
+    href: null,
   },
   {
     name: "Stride",
     category: "FINANCIAL TECHNOLOGY",
     description: "A better relationship with your money.",
     number: "05",
-    href: "/stride",
+    href: null,
   },
   {
     name: "Moovio",
     category: "SOFTWARE",
     description: "Better experiences for automotive businesses.",
     number: "06",
-    href: "/moovio",
+    href: null,
   },
 ];
 
 function ArrowIcon({ direction = "right" }) {
   return (
     <svg
+      className={`arrow-icon arrow-icon-${direction}`}
       width="20"
       height="20"
       viewBox="0 0 24 24"
       fill="none"
       aria-hidden="true"
-      className={`arrow-icon arrow-icon-${direction}`}
     >
       <path
         d="M4.5 12H19.5M13 5.5L19.5 12L13 18.5"
@@ -70,83 +70,39 @@ function ArrowIcon({ direction = "right" }) {
 export default function App() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(1);
-  const [isDragging, setIsDragging] = useState(false);
-
-  const startX = useRef(0);
-  const dragDistance = useRef(0);
-  const pointerId = useRef(null);
-  const cardRef = useRef(null);
 
   const activeBusiness = businesses[activeIndex];
 
   function navigate(step) {
     setDirection(step);
-    setActiveIndex(
-      (current) =>
+
+    setActiveIndex((current) => {
+      return (
         (current + step + businesses.length) % businesses.length
-    );
-  }
-
-  function handlePointerDown(event) {
-    if (event.button !== 0) return;
-
-    startX.current = event.clientX;
-    dragDistance.current = 0;
-    pointerId.current = event.pointerId;
-
-    setIsDragging(true);
-    event.currentTarget.setPointerCapture(event.pointerId);
-  }
-
-  function handlePointerMove(event) {
-    if (!isDragging || pointerId.current !== event.pointerId) return;
-
-    dragDistance.current = event.clientX - startX.current;
-  }
-
-  function handlePointerUp(event) {
-    if (pointerId.current !== event.pointerId) return;
-
-    const distance = dragDistance.current;
-
-    setIsDragging(false);
-    pointerId.current = null;
-
-    if (Math.abs(distance) > 55) {
-      navigate(distance < 0 ? 1 : -1);
-    }
-  }
-
-  function handlePointerCancel() {
-    setIsDragging(false);
-    pointerId.current = null;
-    dragDistance.current = 0;
+      );
+    });
   }
 
   function handleCardClick(event) {
-    if (Math.abs(dragDistance.current) > 10) {
+    if (!activeBusiness.href) {
       event.preventDefault();
       return;
     }
 
-    window.location.href = activeBusiness.href;
+    // External websites use normal anchor navigation.
+    // No JavaScript redirect is necessary.
   }
-
-  useEffect(() => {
-    function handleKeyDown(event) {
-      if (event.key === "ArrowRight") navigate(1);
-      if (event.key === "ArrowLeft") navigate(-1);
-    }
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
 
   return (
     <main className="site">
+      {/* HEADER */}
+
       <header className="header">
-        <a className="wordmark" href="/" aria-label="MNGM Group home">
+        <a
+          className="wordmark"
+          href="/"
+          aria-label="MNGM Group home"
+        >
           <span className="wordmark-main">MNGM</span>
           <span className="wordmark-sub">GROUP</span>
         </a>
@@ -156,6 +112,8 @@ export default function App() {
           <span>AN INDEPENDENT PORTFOLIO</span>
         </div>
       </header>
+
+      {/* INTRODUCTION */}
 
       <section className="intro">
         <p className="eyebrow">INDEPENDENT BY DESIGN.</p>
@@ -173,69 +131,71 @@ export default function App() {
         </p>
       </section>
 
-      <section className="portfolio" aria-label="Our businesses">
-        <div className="orbit orbit-outer" aria-hidden="true" />
-        <div className="orbit orbit-inner" aria-hidden="true" />
+      {/* BUSINESS CAROUSEL */}
+
+      <section
+        className="portfolio"
+        aria-label="Explore our businesses"
+      >
+        <div
+          className="orbit orbit-outer"
+          aria-hidden="true"
+        />
+
+        <div
+          className="orbit orbit-inner"
+          aria-hidden="true"
+        />
 
         <div className="portfolio-meta">
-          <span className="portfolio-label">OUR BUSINESSES</span>
+          <span className="portfolio-label">
+            OUR BUSINESSES
+          </span>
 
-          <span className="portfolio-count" aria-live="polite">
+          <span
+            className="portfolio-count"
+            aria-live="polite"
+          >
             {activeBusiness.number}
             <span>/</span>
             {String(businesses.length).padStart(2, "0")}
           </span>
         </div>
 
-        <div
-          className={`carousel ${isDragging ? "is-dragging" : ""}`}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerCancel}
-        >
-          <a
-            key={activeBusiness.name}
-            ref={cardRef}
-            className={`business-card ${
-              direction > 0 ? "enter-right" : "enter-left"
-            }`}
-            href={activeBusiness.href}
-            onClick={handleCardClick}
-            draggable="false"
-          >
-            <span className="card-top">
-              <span className="card-number">
-                {activeBusiness.number}
-              </span>
+        <div className="carousel">
+          {/*
+            The card is a real link when a destination exists.
+            Businesses without websites remain non-navigating cards.
+          */}
 
-              <span className="card-arrow">
-                <ArrowIcon />
-              </span>
-            </span>
-
-            <span className="card-main">
-              <span className="card-name">
-                {activeBusiness.name}
-              </span>
-
-              <span className="card-category">
-                {activeBusiness.category}
-              </span>
-            </span>
-
-            <span className="card-bottom">
-              <span className="card-description">
-                {activeBusiness.description}
-              </span>
-
-              <span className="card-explore">
-                EXPLORE
-                <ArrowIcon />
-              </span>
-            </span>
-          </a>
+          {activeBusiness.href ? (
+            <a
+              key={activeBusiness.name}
+              className={`business-card ${
+                direction > 0
+                  ? "enter-right"
+                  : "enter-left"
+              }`}
+              href={activeBusiness.href}
+              onClick={handleCardClick}
+            >
+              <CardContent business={activeBusiness} />
+            </a>
+          ) : (
+            <div
+              key={activeBusiness.name}
+              className={`business-card ${
+                direction > 0
+                  ? "enter-right"
+                  : "enter-left"
+              }`}
+            >
+              <CardContent business={activeBusiness} />
+            </div>
+          )}
         </div>
+
+        {/* NAVIGATION */}
 
         <div className="carousel-controls">
           <button
@@ -247,7 +207,9 @@ export default function App() {
             <ArrowIcon direction="left" />
           </button>
 
-          <span className="controls-label">DRAG TO EXPLORE</span>
+          <span className="controls-label">
+            DRAG TO EXPLORE
+          </span>
 
           <button
             className="nav-button"
@@ -260,25 +222,69 @@ export default function App() {
         </div>
       </section>
 
+      {/* FOOTER */}
+
       <footer className="footer">
         <span className="footer-copy">
           © {new Date().getFullYear()} MNGM GROUP
         </span>
 
-<nav className="legal-links" aria-label="Footer links">
-  <a
-    href="https://www.instagram.com/theprinceryan/"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    Instagram ↗
-  </a>
+        <nav
+          className="legal-links"
+          aria-label="Footer links"
+        >
+          <a
+            href="https://www.instagram.com/theprinceryan/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Instagram ↗
+          </a>
 
-  <a href="/privacy">Privacy</a>
-  <a href="/terms">Terms</a>
-  <a href="/legal">Legal</a>
-</nav>
+          <a href="/privacy">Privacy</a>
+
+          <a href="/terms">Terms</a>
+
+          <a href="/legal">Legal</a>
+        </nav>
       </footer>
     </main>
+  );
+}
+
+function CardContent({ business }) {
+  return (
+    <>
+      <span className="card-top">
+        <span className="card-number">
+          {business.number}
+        </span>
+
+        <span className="card-arrow">
+          <ArrowIcon />
+        </span>
+      </span>
+
+      <span className="card-main">
+        <span className="card-name">
+          {business.name}
+        </span>
+
+        <span className="card-category">
+          {business.category}
+        </span>
+      </span>
+
+      <span className="card-bottom">
+        <span className="card-description">
+          {business.description}
+        </span>
+
+        <span className="card-explore">
+          EXPLORE
+          <ArrowIcon />
+        </span>
+      </span>
+    </>
   );
 }
