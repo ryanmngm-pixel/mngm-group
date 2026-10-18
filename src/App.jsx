@@ -7,7 +7,7 @@ const businesses = [
     category: "DIGITAL & CREATIVE",
     description: "Digital experiences built for business.",
     number: "01",
-    href: "/studios",
+    href: "https://www.mngmstudios.com/",
   },
   {
     name: "MNGM Services",
@@ -265,11 +265,19 @@ export default function App() {
           © {new Date().getFullYear()} MNGM GROUP
         </span>
 
-        <nav className="legal-links" aria-label="Legal">
-          <a href="/privacy">Privacy</a>
-          <a href="/terms">Terms</a>
-          <a href="/legal">Legal</a>
-        </nav>
+<nav className="legal-links" aria-label="Footer links">
+  <a
+    href="https://www.instagram.com/theprinceryan/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Instagram ↗
+  </a>
+
+  <a href="/privacy">Privacy</a>
+  <a href="/terms">Terms</a>
+  <a href="/legal">Legal</a>
+</nav>
       </footer>
     </main>
   );
