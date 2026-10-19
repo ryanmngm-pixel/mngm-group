@@ -31,11 +31,11 @@ const businesses = [
     href: "https://www.uselogic.app/",
   },
   {
-    name: "Stride",
+    name: "Cendra",
     category: "FINANCIAL TECHNOLOGY",
     description: "A better relationship with your money.",
     number: "05",
-    href: null,
+    href: "https://www.getcendra.app/",
   },
   {
     name: "Moovio",
