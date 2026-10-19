@@ -10,11 +10,11 @@ const businesses = [
     href: "https://www.mngmstudios.com/",
   },
   {
-    name: "MNGM Services",
-    category: "PROFESSIONAL SERVICES",
-    description: "Services built around getting things done.",
+    name: "MNGM Detailing",
+    category: "PROFESSIONAL DETAILING",
+    description: "Detailing built around getting things done.",
     number: "02",
-    href: null,
+    href: "https://www.mngmdetailing.com/",
   },
   {
     name: "MNGM Auto",
