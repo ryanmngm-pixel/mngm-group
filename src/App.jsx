@@ -28,7 +28,7 @@ const businesses = [
     category: "TECHNOLOGY",
     description: "A smarter way to stay accountable.",
     number: "04",
-    href: null,
+    href: "https://www.uselogic.app/",
   },
   {
     name: "Stride",
