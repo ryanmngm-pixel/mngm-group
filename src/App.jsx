@@ -35,14 +35,14 @@ const businesses = [
     category: "FINANCIAL TECHNOLOGY",
     description: "A better relationship with your money.",
     number: "05",
-    href: "https://www.moovio.world/",
+    href: null,
   },
   {
     name: "Moovio",
     category: "SOFTWARE",
     description: "Better experiences for automotive businesses.",
     number: "06",
-    href: null,
+    href: "https://www.moovio.world/",
   },
 ];
 
