@@ -16,16 +16,16 @@ const ventures = [
     monogram: "MNGM",
   },
   {
-    id: "moovio",
+  id: "mylynkr",
     number: "02",
-    name: "moovio",
-    category: "SOFTWARE / AUTOMOTIVE",
+    name: "Mylynkr",
+    category: "SMART / HOME",
     description:
-      "A smarter way for automotive repair shops to keep their customers informed.",
-    link: "https://moovio.world",
-    accent: "#8CAFFF",
+      "Mylynkr is a smart home solution that makes life easier.",
+    link: "https://mylynkr.com",
+    accent: "#6070ce",
     status: "IN DEVELOPMENT",
-    monogram: "moovio.",
+    monogram: "MYLYNKR",
   },
   {
     id: "sabl",
