@@ -1,94 +1,56 @@
-
 import { useEffect, useState } from "react";
+import Orbit from "./Orbit";
 import "./App.css";
 
 const ventures = [
   {
     id: "studios",
-    number: "01",
     name: "MNGM Studios",
-    category: "DIGITAL / CREATIVE",
-    description:
-      "Websites and digital experiences designed to make businesses stand apart.",
+    category: "Digital and creative",
+    description: "Websites and digital experiences designed to make businesses stand apart.",
     link: "https://mngmstudios.com",
     accent: "#FF784F",
-    status: "ACTIVE VENTURE",
-    monogram: "MNGM",
+    live: true,
   },
   {
-  id: "mylynkr",
-    number: "02",
+    id: "mylynkr",
     name: "Mylynkr",
-    category: "SMART / HOME",
-    description:
-      "Mylynkr is a smart home solution that makes life easier.",
+    category: "Smart home",
+    description: "Mylynkr is a smart home solution that makes life easier.",
     link: "https://mylynkr.com",
-    accent: "#6070ce",
-    status: "IN DEVELOPMENT",
-    monogram: "MYLYNKR",
+    accent: "#6070CE",
+    live: false,
   },
   {
     id: "sabl",
-    number: "03",
     name: "sabl.",
-    category: "MONEY / FINANCE",
-    description:
-      "Money Better.",
+    category: "Money and finance",
+    description: "Money better.",
     link: null,
     accent: "#C9A86C",
-    status: "IN DEVELOPMENT",
-    monogram: "sabl.",
+    live: false,
   },
   {
     id: "logic",
-    number: "04",
     name: "Logic",
-    category: "AI / TECHNOLOGY",
-    description:
-      "Logic is an AI that pushes you to get further.",
+    category: "AI and technology",
+    description: "Logic is an AI that pushes you to get further.",
     link: "https://uselogic.app",
     accent: "#8B5CF6",
-    status: "IN DEVELOPMENT",
-    monogram: "logic",
+    live: false,
   },
 ];
 
-function ArrowIcon({ diagonal = false }) {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      {diagonal ? (
-        <>
-          <path d="M7 17 17 7" />
-          <path d="M8 7h9v9" />
-        </>
-      ) : (
-        <>
-          <path d="M4 12h16" />
-          <path d="m13 5 7 7-7 7" />
-        </>
-      )}
-    </svg>
-  );
-}
+const STATEMENT =
+  "We believe the best ideas deserve more than just a plan. They deserve to be built.";
 
-function Reveal({ children, className = "", delay = 0 }) {
+function ArrowIcon() {
   return (
-    <div
-      className={`reveal ${className}`}
-      style={{ "--reveal-delay": `${delay}ms` }}
-    >
-      {children}
-    </div>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M7 17 17 7" />
+      <path d="M8 7h9v9" />
+    </svg>
   );
 }
 
@@ -99,32 +61,29 @@ function Header() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 30);
     handleScroll();
-
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
-
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     document.body.classList.toggle("menu-open", menuOpen);
+    if (!menuOpen) return () => document.body.classList.remove("menu-open");
 
-    return () => document.body.classList.remove("menu-open");
+    const onKey = (event) => event.key === "Escape" && setMenuOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.classList.remove("menu-open");
+      window.removeEventListener("keydown", onKey);
+    };
   }, [menuOpen]);
 
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <header className={`site-header ${scrolled ? "scrolled" : ""}`}>
+    <header className={`site-header ${scrolled ? "scrolled" : ""} ${menuOpen ? "open" : ""}`}>
       <div className="header-inner">
-        <a
-          href="#home"
-          className="header-logo"
-          onClick={closeMenu}
-          aria-label="MNGM Group home"
-        >
-          MNGM<span className="registered">®</span>
+        <a href="#home" className="logo" onClick={closeMenu} aria-label="MNGM Group home">
+          MNGM<span className="logo-sub">Group</span>
         </a>
 
         <nav className="desktop-nav" aria-label="Main navigation">
@@ -133,8 +92,8 @@ function Header() {
           <a href="#contact">Contact</a>
         </nav>
 
-        <a href="#ventures" className="header-action">
-          Explore the group <ArrowIcon diagonal />
+        <a href="#contact" className="header-action">
+          Get in touch <ArrowIcon />
         </a>
 
         <button
@@ -157,156 +116,121 @@ function Header() {
         aria-hidden={!menuOpen}
         inert={!menuOpen}
       >
-        <a href="#home" onClick={closeMenu}>
-          Home <span>01</span>
-        </a>
-        <a href="#ventures" onClick={closeMenu}>
-          Ventures <span>02</span>
-        </a>
-        <a href="#about" onClick={closeMenu}>
-          About <span>03</span>
-        </a>
-        <a href="#contact" onClick={closeMenu}>
-          Contact <span>04</span>
-        </a>
-
-        <div className="mobile-nav-bottom">
-          INDEPENDENT BY DESIGN.
-          <br />
-          ESTABLISHED 2026.
-        </div>
+        {["Home", "Ventures", "About", "Contact"].map((title, i) => (
+          <a key={title} href={i === 0 ? "#home" : `#${title.toLowerCase()}`} onClick={closeMenu}
+            style={{ "--i": i }}>
+            {title}
+            <ArrowIcon />
+          </a>
+        ))}
+        <p className="mobile-nav-bottom">Independent by design. Founded in Utah, 2026.</p>
       </nav>
     </header>
   );
 }
 
 function Hero() {
+  const words = ["Built", "to", "build", "what's", "next."];
+
   return (
     <section className="hero" id="home">
-      <div className="hero-orbit hero-orbit-one" />
-      <div className="hero-orbit hero-orbit-two" />
-      <div className="hero-orbit hero-orbit-three" />
+      <Orbit ventures={ventures} />
+      <div className="hero-veil" aria-hidden="true" />
 
       <div className="hero-content container">
-        <Reveal>
-          <div className="eyebrow hero-eyebrow">
-            <span className="eyebrow-dot" />
-            INDEPENDENT BY DESIGN
-            <span className="eyebrow-divider" />
-            EST. 2026
-          </div>
-        </Reveal>
+        <p className="hero-kicker load" style={{ "--d": "0.2s" }}>
+          <span className="signal" aria-hidden="true" />
+          Independent holding company, founded in Utah
+        </p>
 
-        <Reveal delay={100}>
-          <h1 className="hero-title">
-            Built to build
-            <br />
-            <span>what's next.</span>
-          </h1>
-        </Reveal>
+        <h1 className="hero-title" aria-label="Built to build what's next.">
+          {words.map((word, i) => (
+            <span className="word" key={word} aria-hidden="true">
+              <span style={{ "--d": `${0.35 + i * 0.09}s` }}>{word}</span>
+            </span>
+          ))}
+        </h1>
 
-        <Reveal delay={200}>
-          <p className="hero-description">
-            An independent group creating ambitious businesses,
-            digital products, and experiences.
-          </p>
-        </Reveal>
+        <p className="hero-description load" style={{ "--d": "0.9s" }}>
+          MNGM Group creates and runs ambitious businesses, digital products, and experiences.
+        </p>
 
-        <Reveal delay={300}>
-          <a className="primary-button" href="#ventures">
-            Explore our ventures
-            <ArrowIcon diagonal />
+        <div className="load" style={{ "--d": "1.05s" }}>
+          <a className="button" href="#ventures">
+            Explore our ventures <ArrowIcon />
           </a>
-        </Reveal>
+        </div>
       </div>
 
-      <div className="hero-bottom container">
-        <span>THE MNGM GROUP</span>
-        <a href="#ventures">
-          SCROLL TO EXPLORE <span className="scroll-arrow">↓</span>
-        </a>
+      <div className="hero-legend container load" style={{ "--d": "1.4s" }}>
+        <span className="legend-title">In orbit</span>
+        <ul>
+          {ventures.map((v) => (
+            <li key={v.id} style={{ "--accent": v.accent }}>{v.name}</li>
+          ))}
+        </ul>
       </div>
     </section>
   );
 }
 
 function VentureCard({ venture }) {
+  const Tag = venture.link ? "a" : "div";
+  const linkProps = venture.link
+    ? { href: venture.link, target: "_blank", rel: "noopener noreferrer" }
+    : {};
+
+  // The accent light follows the cursor across the panel
+  const track = (event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    event.currentTarget.style.setProperty("--mx", `${event.clientX - rect.left}px`);
+    event.currentTarget.style.setProperty("--my", `${event.clientY - rect.top}px`);
+  };
+
   return (
-    <a
-      className={`venture-card venture-${venture.id}`}
-      href={venture.link}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ "--venture-accent": venture.accent }}
-      aria-label={`Visit ${venture.name} website`}
+    <Tag
+      className={`venture ${venture.link ? "" : "is-static"}`}
+      style={{ "--accent": venture.accent }}
+      onPointerMove={track}
+      {...linkProps}
     >
-      <div className="venture-glow" />
-
-      <div className="venture-card-top">
+      <div className="venture-top">
         <span className="venture-category">{venture.category}</span>
-
-        <span className="venture-arrow">
-          <ArrowIcon diagonal />
+        <span className={`venture-status ${venture.live ? "is-live" : ""}`}>
+          {venture.live ? "Live" : "In development"}
         </span>
       </div>
 
-      <div className="venture-card-center">
-        <div className="venture-monogram">
-          {venture.monogram}
-        </div>
-      </div>
+      <h3 className="venture-name">{venture.name}</h3>
 
-      <div className="venture-card-bottom">
-        <div>
-          <span className="venture-number">
-            {venture.number} / {venture.status}
+      <div className="venture-bottom">
+        <p>{venture.description}</p>
+        {venture.link ? (
+          <span className="venture-link">
+            {venture.link.replace("https://", "")} <ArrowIcon />
           </span>
-          <h3>{venture.name}</h3>
-          <p>{venture.description}</p>
-        </div>
+        ) : (
+          <span className="venture-link is-muted">Launching soon</span>
+        )}
       </div>
-    </a>
+    </Tag>
   );
 }
 
 function Ventures() {
   return (
-    <section className="ventures-section section-padding" id="ventures">
+    <section className="section ventures" id="ventures">
       <div className="container">
-        <Reveal>
-          <div className="section-heading">
-            <div>
-              <div className="section-label">
-                <span>01</span>
-                <span className="label-line" />
-                OUR COMPANIES
-              </div>
-
-              <h2>
-                The ventures<span className="heading-period">.</span>
-              </h2>
-            </div>
-
-            <span className="section-count">
-              01 — {String(ventures.length).padStart(2, "0")}
-            </span>
-          </div>
-        </Reveal>
-
-        <div className="venture-grid">
-          {ventures.map((venture, index) => (
-            <Reveal key={venture.id} delay={index * 100}>
-              <VentureCard venture={venture} />
-            </Reveal>
-          ))}
+        <div className="section-heading">
+          <h2>The ventures</h2>
+          <p>Different industries, one ambition: build things that matter.</p>
         </div>
 
-        <Reveal>
-          <div className="ventures-footer">
-            <span>DIFFERENT INDUSTRIES. ONE AMBITION.</span>
-            <span>BUILD THINGS THAT MATTER. ↗</span>
-          </div>
-        </Reveal>
+        <div className="venture-grid">
+          {ventures.map((venture) => (
+            <VentureCard key={venture.id} venture={venture} />
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -314,39 +238,25 @@ function Ventures() {
 
 function About() {
   return (
-    <section className="about-section section-padding" id="about">
+    <section className="section about" id="about">
       <div className="container">
-        <Reveal>
-          <div className="section-label">
-            <span>02</span>
-            <span className="label-line" />
-            THE GROUP
-          </div>
-        </Reveal>
+        <p className="statement">
+          {STATEMENT.split(" ").map((word, i) => (
+            <span key={i}>{word} </span>
+          ))}
+        </p>
 
-        <Reveal delay={100}>
-          <h2 className="about-statement">
-            We believe the best ideas deserve more than just a plan.
-            <span> They deserve to be built.</span>
-          </h2>
-        </Reveal>
-
-        <Reveal delay={200}>
-          <div className="about-details">
-            <div className="about-detail-label">WHO WE ARE</div>
-
-            <p>
-              MNGM Group is an independent parent company focused
-              on developing and operating ventures across
-              technology, creative services, and beyond.
-            </p>
-
-            <div className="about-location">
-              <span className="location-dot" />
-              FOUNDED IN UTAH, USA
-            </div>
-          </div>
-        </Reveal>
+        <div className="about-details">
+          <h2>Who we are</h2>
+          <p>
+            MNGM Group is an independent parent company focused on developing and operating
+            ventures across technology, creative services, and beyond.
+          </p>
+          <p className="about-location">
+            <span className="signal" aria-hidden="true" />
+            Founded in Utah, USA
+          </p>
+        </div>
       </div>
     </section>
   );
@@ -384,36 +294,19 @@ function Contact() {
   }
 
   return (
-    <section className="contact-section section-padding" id="contact">
+    <section className="section contact" id="contact">
+      <div className="contact-portal" aria-hidden="true" />
       <div className="container">
-        <Reveal>
-          <div className="section-label">
-            <span>03</span>
-            <span className="label-line" />
-            GET IN TOUCH
-          </div>
+        <h2 className="contact-title">Let's make something happen.</h2>
 
-          <h2 className="contact-title">
-            Let's make
-            <br />
-            something <span>happen.</span>
-          </h2>
+        <p className="contact-description">
+          Have an idea, an opportunity, or something worth building? We'd like to hear about it.
+        </p>
 
-          <p className="contact-description">
-            Have an idea, an opportunity, or something worth building?
-            We'd like to hear about it.
-          </p>
-
-          <button
-            type="button"
-            className="contact-button"
-            onClick={copyPhone}
-            aria-live="polite"
-          >
-            {copied ? "Number copied!" : "Get in touch"}
-            <ArrowIcon diagonal />
-          </button>
-        </Reveal>
+        <button type="button" className="button button-large" onClick={copyPhone}>
+          <span aria-live="polite">{copied ? "Phone number copied" : "Copy our phone number"}</span>
+          <ArrowIcon />
+        </button>
       </div>
     </section>
   );
@@ -423,30 +316,16 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="container">
-        <div className="footer-top">
-          <a href="#home" className="footer-logo">
-            MNGM<span>®</span>
-          </a>
-
-          <div className="footer-tagline">
-            BUILT TO BUILD WHAT'S NEXT.
-          </div>
-        </div>
-
-        <div className="footer-divider" />
+        <div className="footer-mark" aria-hidden="true">MNGM</div>
 
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} MNGM GROUP, LLC</span>
-
-          <div className="footer-links">
-            <a href="#ventures">VENTURES</a>
-            <a href="#about">ABOUT</a>
-            <a href="#contact">CONTACT</a>
-          </div>
-
-          <a href="#home" className="back-to-top">
-            BACK TO TOP ↑
-          </a>
+          <span>© {new Date().getFullYear()} MNGM Group, LLC</span>
+          <nav className="footer-links" aria-label="Footer navigation">
+            <a href="#ventures">Ventures</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+          </nav>
+          <a href="#home" className="back-to-top">Back to top</a>
         </div>
       </div>
     </footer>
@@ -454,39 +333,15 @@ function Footer() {
 }
 
 export default function App() {
-  useEffect(() => {
-    document.title = "MNGM Group — Built to Build What's Next";
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.08, rootMargin: "0px 0px -25px 0px" }
-    );
-
-    document.querySelectorAll(".reveal").forEach((element) => {
-      observer.observe(element);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <div className="app">
       <Header />
-
       <main>
         <Hero />
         <Ventures />
         <About />
         <Contact />
       </main>
-
       <Footer />
     </div>
   );
